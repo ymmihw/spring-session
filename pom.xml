@@ -26,7 +26,4 @@
    <scope>test</scope>
   </dependency>
  </dependencies>
- <modules>
-  <module>spring-session-introduction</module>
- </modules>
 </project>
