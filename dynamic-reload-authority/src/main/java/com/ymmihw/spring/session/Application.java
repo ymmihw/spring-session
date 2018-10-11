@@ -1,5 +1,6 @@
 package com.ymmihw.spring.session;
 
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Application {
 
   @RequestMapping("/s1")
   public String s1(HttpSession session) {
-    Object attribute = session.getAttribute("SPRING_SECURITY_CONTEXT");
+    Object attribute = session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
     System.out.println("session = " + attribute);
     return "s1";
   }
@@ -48,7 +49,7 @@ public class Application {
     for (Entry<String, Session> entry : sessions.entrySet()) {
 
       Session session = entry.getValue();
-      Object attribute = session.getAttribute("SPRING_SECURITY_CONTEXT");
+      Object attribute = session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
       if (attribute instanceof SecurityContextImpl) {
         SecurityContextImpl securityContext = (SecurityContextImpl) attribute;
         Authentication authentication = securityContext.getAuthentication();
@@ -58,7 +59,7 @@ public class Application {
             authentication.getPrincipal(), authentication.getCredentials(), ss);
         token.setDetails(authentication.getDetails());
         securityContext.setAuthentication(token);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
         sessionRepository.save(session);
       }
     }
